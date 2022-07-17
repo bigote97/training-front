@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: bisque;
+}
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+header div span{
+    margin-left: 10px;
+}
+header div span:hover{
+    cursor: pointer;
+    font-weight: bold;
+}
+main{
+    margin: 20px;
+}
+main h1{
+    font-weight: bold;
+}
+#plantSearch, #listado, #agregar{
+    display: none;
+}
