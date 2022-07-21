@@ -13,22 +13,26 @@ let agregar = document.getElementById('agregar');
 let plantSearcher = document.getElementById('plantSearcher');
 let formAgregarSender = document.getElementById('formAgregarSender');
 
-fetch(url + '/listar')
-.then(response => response.json())
-.then(data => {
-	console.log(data);
-	document.title = data.Title
-	createTable(data.plantas)
-})
-.catch(error => {
-	console.error(error);
-})
+const listar = () => {
+	fetch(url + '/listar')
+	.then(response => response.json())
+	.then(data => {
+		document.title = data.Title
+		createTable(data.plantas, listado)
+	})
+	.catch(error => {
+		console.error(error);
+	})
+}
 
 window.addEventListener('DOMContentLoaded', (event) => {
 	listadoPlantas = JSON.parse(localStorage.getItem("plantas") || "[]");
 });
 
-function createTable(datos) {
+function createTable(datos, section) {
+	while (section.firstChild) {
+		section.removeChild(section.firstChild);
+	}
 	let tabla = document.createElement('table')
 	tabla.className = 'table'
 	tabla.innerHTML = `
@@ -43,7 +47,7 @@ function createTable(datos) {
 			</tbody>
 		</thead>
 	`
-	addChild(listado, tabla)
+	addChild(section, tabla)
 	datos.forEach(dato => {
 		let fila = document.createElement('tr')
 		fila.innerHTML += `
@@ -54,8 +58,8 @@ function createTable(datos) {
 				<td>${dato.siembra}</td>
 			</tr>
 		`
-		const body = document.getElementById('tableBody')
-		addChild(body, fila)
+		const tableBody = document.getElementById('tableBody')
+		addChild(tableBody, fila)
 	})
 }
 
@@ -84,6 +88,7 @@ searchButton.addEventListener('click', () => {
 })
 
 listadoButton.addEventListener('click', () => {
+	listar()
 	plantSearch.style.display = 'none';
 	home.style.display = 'none';
 	agregar.style.display = 'none';
@@ -108,15 +113,28 @@ formAgregarSender.addEventListener('click', (event) => {
 		'cosecha': plantCosecha,
 		'siembra': plantSiembra
 	}
-	console.log(planta)
 	storagePlantas(planta)
+	fetch(`${url}/nueva`, {
+    method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+    body: JSON.stringify(planta)
+  }).then(function(response) {
+    return response.json();
+  }).then(function(data) {
+    console.log('log:', data);
+  });
 })
 
-plantSearch.addEventListener('click', () => {
+plantSearcher.addEventListener('click', () => {
 	let searchInput = document.getElementById('searchInput').value;
-	listadoPlantas.forEach(planta => {
-		let resultElement = document.createElement('div');
-		resultElement.textContent = planta.name + ', ' + planta.type;
-		addChild(plantSearch, resultElement);
-	});
+	fetch(`${url}/buscar/${searchInput}`
+	).then(function(response) {
+    return response.json();
+  }).then(function(data) {
+		let tableData = []
+		tableData.push(data.result)
+		createTable(tableData, plantSearch)
+  });
 })
