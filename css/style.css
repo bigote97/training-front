@@ -27,3 +27,12 @@ main h1{
 #plantSearch, #listado, #agregar{
     display: none;
 }
+
+
+.pencil-icon{
+    max-width: 20px;
+    max-height: auto;
+}
+.pencil-icon:hover{
+    cursor: pointer;
+}

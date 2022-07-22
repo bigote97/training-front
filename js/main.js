@@ -45,6 +45,7 @@ function createTable(datos, section) {
 				<th scope="col">Nombre</th>
 				<th scope="col">Cosecha</th>
 				<th scope="col">Siembra</th>
+				<th scope="col">Editar</th>
 			</tr>
 			<tbody id='tableBody'>
 			</tbody>
@@ -62,9 +63,29 @@ function createTable(datos, section) {
 				<td>${dato.siembra}</td>
 			</tr>
 		`
+		const thEdit = document.createElement('th')		
+		thEdit.innerHTML = `<td><img class="pencil-icon" src="../images/pencil-icon.svg"></td>`
+		thEdit.onclick = function () {
+			editPlanta(dato._id);
+		};
 		const tableBody = document.getElementById('tableBody')
 		addChild(tableBody, fila)
+		addChild(fila, thEdit)
 	})
+}
+
+function editPlanta(idPlanta) {
+	fetch(`${url}/editar`, {
+		method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		body: {'id': idPlanta}
+	  }).then(function(response) {
+		return response.json();
+	  }).then(function(data) {
+		console.log('log:', data);
+	  });
 }
 
 function storagePlantas(planta) {
