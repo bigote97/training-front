@@ -18,7 +18,8 @@ const listar = () => {
 	.then(response => response.json())
 	.then(data => {
 		document.title = data.Title
-		createTable(data.plantas, listado)
+		console.log(data)
+		createTable(data.listadoPlantas, listado)
 	})
 	.catch(error => {
 		console.error(error);
@@ -34,10 +35,12 @@ function createTable(datos, section) {
 		section.removeChild(section.firstChild);
 	}
 	let tabla = document.createElement('table')
+	tabla.setAttribute("id", `${section.id}Table`);
 	tabla.className = 'table'
 	tabla.innerHTML = `
 		<thead>
 			<tr>
+				<th scope="col">ID</th>
 				<th scope="col">Tipo</th>
 				<th scope="col">Nombre</th>
 				<th scope="col">Cosecha</th>
@@ -52,7 +55,8 @@ function createTable(datos, section) {
 		let fila = document.createElement('tr')
 		fila.innerHTML += `
 			<tr>
-				<td>${dato.type}</td>
+				<td>${dato._id}</td>
+				<td>${dato.tipo}</td>
 				<td>${dato.name}</td>
 				<td>${dato.cosecha}</td>
 				<td>${dato.siembra}</td>
@@ -108,7 +112,7 @@ formAgregarSender.addEventListener('click', (event) => {
 	let plantSiembra = document.getElementById('plantSiembra').value;
 	let plantCosecha = document.getElementById('plantCosecha').value;
 	let planta = {
-		'type': plantType,
+		'tipo': plantType,
 		'name': plantName,
 		'cosecha': plantCosecha,
 		'siembra': plantSiembra
@@ -133,8 +137,8 @@ plantSearcher.addEventListener('click', () => {
 	).then(function(response) {
     return response.json();
   }).then(function(data) {
-		let tableData = []
-		tableData.push(data.result)
-		createTable(tableData, plantSearch)
+		// let tableData = []
+		// tableData.push(data.plantaEncotrada)
+		createTable(data.plantaEncotrada, plantSearch)
   });
 })
