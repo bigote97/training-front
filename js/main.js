@@ -80,7 +80,7 @@ function editPlanta(idPlanta) {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		body: {'id': idPlanta}
+		body: JSON.stringify({'id': idPlanta})
 	  }).then(function(response) {
 		return response.json();
 	  }).then(function(data) {
