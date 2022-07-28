@@ -6,7 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/style.css">
 	<script defer src="js/main.js"></script>
 	<script defer src="js/api-connect.js"></script>
@@ -40,6 +41,63 @@
 			<button type="submit" id="plantSearcher">Buscar</button>
 		</section>
 		<section id="listado">
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Tipo</th>
+						<th scope="col">Nombre</th>
+						<th scope="col">Cosecha</th>
+						<th scope="col">Siembra</th>
+						<th scope="col">Editar</th>
+					</tr>
+				</thead>
+				<tbody id="listadoTableBody">
+
+				</tbody>
+			</table>
+
+			<!-- Modal -->
+			<div class="modal fade" id="listadoModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div>
+								<h5 class="modal-title mb-1" id="editarleModalTitle"></h5>
+								<h6 class="card-subtitle mb-2 text-muted">Id: <span id="editarleModalSubTitle"></span></h6>
+							</div>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form>
+								<div class="row">
+								  <div class="col">
+									<input type="text" class="form-control" id="editarTipo" placeholder="Tipo">
+								  </div>
+								  <div class="col">
+									<input type="text" class="form-control" id="editarNombre" placeholder="Nombre">
+								  </div>
+								</div>
+								<div class="row mt-3">
+								  <div class="col">
+									<input type="text" class="form-control" id="editarCosecha" placeholder="Cosecha">
+								  </div>
+								  <div class="col">
+									<input type="text" class="form-control" id="editarSiembra" placeholder="Siembra">
+								  </div>
+								</div>
+							  </form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+							<button type="button" class="btn btn-primary" onclick="editPlanta()">Guardar</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</section>
 		<section id="agregar">
 			<p>Esta funcion agregara nuevas plantas al listado</p>
@@ -70,10 +128,16 @@
 	<footer></footer>
 
 	<!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+	</script>
 </body>
 
 </html>

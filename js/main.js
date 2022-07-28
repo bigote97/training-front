@@ -19,7 +19,8 @@ const listar = () => {
 	.then(data => {
 		document.title = data.Title
 		console.log(data)
-		createTable(data.listadoPlantas, listado)
+		// createTable(data.listadoPlantas, listado)
+		listadoTableBody(data.listadoPlantas);
 	})
 	.catch(error => {
 		console.error(error);
@@ -66,6 +67,7 @@ function createTable(datos, section) {
 		const thEdit = document.createElement('th')		
 		thEdit.innerHTML = `<td><img class="pencil-icon" src="../images/pencil-icon.svg"></td>`
 		thEdit.onclick = function () {
+			
 			editPlanta(dato._id);
 		};
 		const tableBody = document.getElementById('tableBody')
@@ -74,13 +76,25 @@ function createTable(datos, section) {
 	})
 }
 
-function editPlanta(idPlanta) {
+function editPlanta() {
+	const idPlanta = document.getElementById('editarleModalSubTitle').innerText;
+	const tipoPlanta = document.getElementById('editarTipo').value;
+	const nombrePlanta = document.getElementById('editarNombre').value;
+	const cosechaPlanta = document.getElementById('editarCosecha').value;
+	const siembraPlanta = document.getElementById('editarSiembra').value;
+	
 	fetch(`${url}/editar`, {
 		method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-		body: JSON.stringify({'id': idPlanta})
+		body: JSON.stringify({
+			'id': idPlanta, 
+			'type': tipoPlanta, 
+			'name': nombrePlanta, 
+			'cosecha': cosechaPlanta, 
+			'siembra': siembraPlanta
+		})
 	  }).then(function(response) {
 		return response.json();
 	  }).then(function(data) {
@@ -111,6 +125,45 @@ searchButton.addEventListener('click', () => {
 	agregar.style.display = 'none';
 	plantSearch.style.display = 'block';
 })
+
+function listadoTableBody(datos) {
+	const tableBody = document.getElementById('listadoTableBody')
+
+	while (tableBody.firstChild) {
+		tableBody.removeChild(tableBody.firstChild);
+	}
+	datos.forEach(dato => {
+		let fila = document.createElement('tr')
+		fila.innerHTML += `
+			<tr>
+				<td>${dato._id}</td>
+				<td>${dato.tipo}</td>
+				<td>${dato.name}</td>
+				<td>${dato.cosecha}</td>
+				<td>${dato.siembra}</td>
+			</tr>
+		`
+		const thEdit = document.createElement('th')		
+		thEdit.innerHTML = `<td><img class="pencil-icon" src="../images/pencil-icon.svg"></td>`
+		thEdit.setAttribute("data-toggle", "modal");
+		thEdit.setAttribute("data-target", "#listadoModal");
+		thEdit.onclick = function () {
+			document.getElementById('editarleModalTitle').innerHTML = dato.name;
+			document.getElementById('editarleModalSubTitle').innerHTML = dato._id;
+			document.getElementById('editarTipo').value = dato.tipo;
+			document.getElementById('editarTipo').placeHolder = dato.tipo;
+			document.getElementById('editarNombre').value = dato.name;
+			document.getElementById('editarNombre').placeHolder = dato.name;
+			document.getElementById('editarCosecha').value = dato.cosecha;
+			document.getElementById('editarCosecha').placeHolder = dato.cosecha;
+			document.getElementById('editarSiembra').value = dato.siembra;
+			document.getElementById('editarSiembra').placeHolder = dato.siembra;
+		};
+		addChild(tableBody, fila)
+		addChild(fila, thEdit)
+	})
+}
+
 
 listadoButton.addEventListener('click', () => {
 	listar()
